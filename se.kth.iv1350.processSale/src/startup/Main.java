@@ -2,23 +2,29 @@ package startup;
 
 import view.View;
 import controller.Controller;
-import integration.Registerskapare;
+import integration.RegistryCreator;
+import integration.SaleRegistry;
+import integration.Printer;
+import integration.AccountingSystem;
 
 /**
- * Innehåller <code>Main<code>, utför all startup som krävs för programmet
+ * Innehï¿½ller <code>Main<code>, utfï¿½r all startup som krï¿½vs fï¿½r programmet
  *
  */
 public class Main {
-	
+
 	/**
 	 * Startar programmet
-	 * @param args 
+	 * @param args
 	 */
-	public static void main(String[] args) 
+	public static void main(String[] args)
 	{
-		Registerskapare registerskapare = new Registerskapare();
-		Controller controller = new Controller(registerskapare);
-		new View(controller).simulering();
+		RegistryCreator regiC = new RegistryCreator();
+		SaleRegistry saleR = new SaleRegistry();
+		Printer pr = new Printer();
+		AccountingSystem accS = new AccountingSystem();
+		Controller contr = new Controller(regiC, saleR, pr, accS);
+		new View(contr).simulator();
 	}
 
 }

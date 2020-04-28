@@ -3,86 +3,78 @@ package controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import integration.ExternBokföringssystem;
-import integration.Försäljningsregister;
-import integration.Kassaskåp;
-import integration.Kvittoskrivare;
-import integration.Lagerkatalog;
-import integration.Registerskapare;
-import integration.VarorDTO;
-import model.Köpinformation;
-import model.RegistreradeVarorDTO;
-import model.Kalkylator;
-import model.Kvitto;
+import integration.RegistryCreator;
+import integration.Inventory;
+//import integration.MemberSystem;
+//import integration.DiscountSystem;
+//import integration.Discount;
+//import integration.MemberDTO;
+import integration.AccountingSystem;
+import integration.SaleRegistry;
+import integration.Printer;
+import integration.ItemDTO;
+import model.Sale;
+import model.RegisteredItemDTO;
+import model.Receipt;
 
 /**
- * Controller för programmet, all upprop av metoden från model görs här
+ * Controller fï¿½r programmet, all upprop av metoden frï¿½n model gï¿½rs hï¿½r
  */
-public class Controller 
+public class Controller
 {
-	private Lagerkatalog lagerkatalog;
-	private static List<RegistreradeVarorDTO> listaAvRegistreradeVaror = new ArrayList<>();
-	private static Köpinformation uppdateradKöpinformation;
-	
+	private Inventory inven;
+	// private DiscountSystem dissys;
+	// private MemberSystem memsys;
+
+	// private static List<RegistreradeVarorDTO> listWithRegisteredItems = new ArrayList<>();
+	// private static Sale paymentInfo;
+
 	/**
 	 * Skapar en instans
 	 */
-	public Controller(Registerskapare registerskapare)
+	public Controller(RegistryCreator regiC, SaleRegistry saleR, Printer pr, AccountingSystem accS)
 	{
-		this.lagerkatalog = registerskapare.getLagerkatalog();
+		this.inven = regiC.getInventory();
+		// this.dissys = regiC.getDiscountSystem();
+		// this.memsys = regiC.getMemberSystem();
 	}
-	
+
 	/**
-	 * Tar emot betalningen, uppdaterar försäljningsregister, lägger in betalningen i kassaskåpet,
-	 * skickar köpinformationen till extern bokföringssystem, uppdaterar lager med de sålda varor
-	 * och skriver ut kvitto
-	 * @param summaAvPengar - summa av pengar som kunden betalar med
-	 * @return växel som kunden ska behålla
+	 * Tar emot betalningen, uppdaterar fï¿½rsï¿½ljningsregister, lï¿½gger in betalningen i kassaskï¿½pet,
+	 * skickar kï¿½pinformationen till extern bokfï¿½ringssystem, uppdaterar lager med de sï¿½lda varor
+	 * och skriver ut receipt
+	 * @param totalPaid - summa av pengar som kunden betalar med
+	 * @return change som kunden ska behï¿½lla
 	 */
-	public static double betalning(double summaAvPengar)
+	public static double payment(double totalPaid)
 	{
-		Försäljningsregister.uppdateraIntäkter(uppdateradKöpinformation.getTotalSumma());
-		Kassaskåp.läggI(uppdateradKöpinformation.getTotalSumma());
-		ExternBokföringssystem.sparaUppgifterOm(uppdateradKöpinformation);
-		Lagerkatalog.uppdateraLager(listaAvRegistreradeVaror);
-		double växel = Kalkylator.beräknaDifferens(summaAvPengar, 
-				uppdateradKöpinformation.getTotalSumma());
-		Kvitto kvitto = Kvitto.skapaKvitto(uppdateradKöpinformation, summaAvPengar, växel);
-		Kvittoskrivare.skrivUt(kvitto);
-		
-		return växel;
+		//need to declare paymentInfo in Sale
+		saleR.updateBalance(paymentInfo.getTotalToPay());
+		accS.updateAccounting(paymentInfo);
+		//need to get list from sale
+		inven.updateInventory(listWithRegisteredItems);
+		double change = Sale.calculateDifference(totalPaid,
+				paymentInfo.getTotalToPay());
+		Receipt receipt = Receipt.createReceipt(paymentInfo, totalPaid, change);
+		pr.printReceipte(receipt);
+
+		return change;
 	}
-	
+
 	/**
-	 * Registrerar varan som såld vara och uppdaterar köpinformation
-	 * @param artikelnummer - varan som ska registreras
-	 * @return <code>Köpinformation<code>
+	 * Registrerar varan som sï¿½ld vara och uppdaterar kï¿½pinformation
+	 * @param articleNumber - varan som ska registreras
+	 * @return <code>Sale<code>
 	 */
-	public static Köpinformation registrera(String artikelnummer)
+	public static Sale registrera(String articleNumber)
 	{
-		VarorDTO varaSomSkaRegistreras = Lagerkatalog.hitta(artikelnummer);
-		läggIListan(varaSomSkaRegistreras);
-		uppdateradKöpinformation = new Köpinformation(listaAvRegistreradeVaror, 
-				Kalkylator.beräknaTotalPris(listaAvRegistreradeVaror), 
-				Kalkylator.beräknaTotalMoms(listaAvRegistreradeVaror));
-		return uppdateradKöpinformation;
+		ItemDTO itemToBeRegistered = inven.find(articleNumber);
+		//add to list in Invertory now
+		addToList(itemToBeRegistered);
+		paymentInfo = new Sale(listWithRegisteredItems,
+				Sale.calculatePrice(listWithRegisteredItems),
+				Sale.calculateVat(listWithRegisteredItems));
+		return paymentInfo;
 	}
-	
-	/**
-	 * Lägger till varan som ska registreras i listan <code>listaAvRegistreradeVaror<code>, 
-	 * om varan redan finns i listan så ökas bara antalet med 1.
-	 * @param vara - varan som ska registreras
-	 */
-	public static void läggIListan(VarorDTO vara)
-	{
-		for(RegistreradeVarorDTO registreradeVara : listaAvRegistreradeVaror)
-			if(vara.matchar(registreradeVara.getArtikelnummer()))
-			{
-				registreradeVara.setAntal(registreradeVara.getAntal() + 1);
-				return;
-			}
-		
-		listaAvRegistreradeVaror.add(new RegistreradeVarorDTO(vara.getNamn(), vara.getArtikelnummer()
-					,vara.getPris(), vara.getMomssats(), 1));
-	}
+	//need a view end sale method
 }

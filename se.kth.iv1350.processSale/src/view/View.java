@@ -1,37 +1,37 @@
 package view;
 
 import controller.Controller;
-import model.Köpinformation;
+import model.Sale;
 
 /**
- * Denna klass ska föreställa hela view eftersom att det här progammet har ingen view.
+ * Denna klass ska fï¿½restï¿½lla hela view eftersom att det hï¿½r progammet har ingen view.
  *
  */
-public class View 
+public class View
 {
-	private Controller controller;
-	
+	private Controller contr;
+
 	/**
 	 * Skapar en ny instans
-	 * @param controller - controller som används för alla operationer
+	 * @param controller - controller som anvï¿½nds fï¿½r alla operationer
 	 */
-	public View(Controller controller)
+	public View(Controller contr)
 	{
-		this.controller = controller;
+		this.contr = contr;
 	}
-	
+
 	/**
-	 * Ska simulera användarens input och hur de framkallar olika system operationer
+	 * Ska simulera anvï¿½ndarens input och hur de framkallar olika system operationer
 	 */
-	public void simulering()
+	public void simulator()
 	{
-		String[] varorSomSkaRegistreras = {"3678", "3678", "0054"};
-		
-		for(int i = 0; i < varorSomSkaRegistreras.length; i++)
+		String[] itemNeededToRegister = {"3678", "3678", "0054"};
+
+		for(int i = 0; i < itemNeededToRegister.length; i++)
 		{
-			Köpinformation uppdateradKöpinformation = Controller.registrera(varorSomSkaRegistreras[i]);
-			System.out.println(uppdateradKöpinformation);
+			Sale paymentInfo = Controller.register(itemNeededToRegister[i]);
+			System.out.println(paymentInfo);
 		}
-		double växel = Controller.betalning(100.0);
+		double change = Controller.payment(100.0);
 	}
 }
