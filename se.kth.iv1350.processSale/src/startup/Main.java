@@ -1,22 +1,14 @@
 package startup;
 
-import view.View;
 import controller.Controller;
+import integration.AccountingSystem;
+import integration.Printer;
 import integration.RegistryCreator;
 import integration.SaleRegistry;
-import integration.Printer;
-import integration.AccountingSystem;
+import view.View;
 
-/**
- * Inneh�ller <code>Main<code>, utf�r all startup som kr�vs f�r programmet
- *
- */
 public class Main {
 
-	/**
-	 * Startar programmet
-	 * @param args
-	 */
 	public static void main(String[] args)
 	{
 		RegistryCreator regiC = new RegistryCreator();
@@ -26,5 +18,4 @@ public class Main {
 		Controller contr = new Controller(regiC, saleR, pr, accS);
 		new View(contr).simulator();
 	}
-
 }
