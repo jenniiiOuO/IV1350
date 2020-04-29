@@ -1,5 +1,8 @@
 package view;
 
+import java.util.Locale;
+import java.util.Scanner;
+
 import controller.Controller;
 import model.Sale;
 
@@ -24,6 +27,13 @@ public class View
 			System.out.println(info);
 		}
 		
-		double change = contr.endSale();
+		double toPay = contr.endSale();
+		
+		System.out.println("Total to pay: " + toPay);
+		Scanner scanner = new Scanner(System.in).useLocale(Locale.US);
+		System.out.println("Enter paid amount: ");
+		double cash = scanner.nextDouble();
+		System.out.println("");
+		double change = contr.payment(cash);
 	}
 }

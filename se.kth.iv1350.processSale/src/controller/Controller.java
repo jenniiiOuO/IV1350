@@ -2,6 +2,7 @@ package controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Scanner;
 
 import integration.AccountingSystem;
@@ -28,6 +29,9 @@ public class Controller
 	public Controller(RegistryCreator regiC, SaleRegistry saleR, Printer pr, AccountingSystem accS)
 	{
 		this.inven = regiC.getInventory();
+		this.saleR = saleR;
+		this.pr = pr;
+		this.accS = accS;
 		// this.dissys = regiC.getDiscountSystem();
 		// this.memsys = regiC.getMemberSystem();
 	}
@@ -37,18 +41,13 @@ public class Controller
 		List<RegisteredItemDTO> list = new ArrayList<>(); 
 		double totalToPay = 0;
 		double totalVat = 0;
-		Sale sale = new Sale(list, totalToPay, totalVat);
+		this.sale = new Sale(list, totalToPay, totalVat);
 	}
 	
 	public double endSale() 
 	{
 		double toPay = sale.getTotalToPay();
-		System.out.println("Total to pay: " + toPay);
-		Scanner scanner = new Scanner(System.in);
-		double cash = scanner.nextDouble();
-		double change = payment(cash);
-		
-		return change;
+		return toPay;
 	}
 
 	public double payment(double totalPaid)
@@ -68,8 +67,10 @@ public class Controller
 	{
 		ItemDTO itemToBeRegistered = inven.find(articleNumber);
 		sale.addToList(itemToBeRegistered);
-		sale.calculatePrice();
-		sale.calculateVat();
+		double price = sale.calculatePrice();
+		double vat = sale.calculateVat();
+		sale.setTotalToPay(price);
+		sale.setTotalVat(vat);
 		
 		return sale;
 	}
