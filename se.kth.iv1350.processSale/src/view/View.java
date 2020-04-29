@@ -16,6 +16,9 @@ public class View
 		this.contr = contr;
 	}
 
+	/*
+	 * simulate a sale
+	 */
 	public void simulator()
 	{
 		String[] itemNeededToRegister = {"3678", "3678", "0054"};

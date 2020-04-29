@@ -9,6 +9,9 @@ import view.View;
 
 public class Main {
 
+	/*
+	 * main, create instance of the external systems in order to be able to interact with them in the sale
+	 */
 	public static void main(String[] args)
 	{
 		RegistryCreator regiC = new RegistryCreator();

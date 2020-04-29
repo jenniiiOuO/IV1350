@@ -10,14 +10,21 @@ public class Sale
 	public List<RegisteredItemDTO> listWithRegisteredItems = new ArrayList<>();
 	private double totalToPay;
 	private double totalVat;
-
+	
+	/*
+	 * creates an instance of a sale
+	 */
 	public Sale(List<RegisteredItemDTO> listWithRegisteredItems, double totalToPay, double totalVat)
 	{
 		this.listWithRegisteredItems = listWithRegisteredItems;
 		this.totalToPay = totalToPay;
 		this.totalVat = totalVat;
 	}
-
+	
+	/*
+	 * Calculate total price of all registered items in a sale
+	 * @return total - total price including vat
+	 */
 	public double calculatePrice()
 	{
 		double total = 0;
@@ -26,6 +33,10 @@ public class Sale
 		return total;
 	}
 
+	/*
+	 * Calculate total vat of all registered items in a sale
+	 * @return totalVat - total vat of all registered items
+	 */
 	public double calculateVat()
 	{
 		double totalVat = 0;
@@ -34,11 +45,17 @@ public class Sale
 		return totalVat;
 	}
 
-	public double calculateDifference(double totalPaid, double totalToPay)
+	/*
+	 * calculate the difference between @param totalPaid and @param totalToPay and return change
+	 */
+	public static double calculateDifference(double totalPaid, double totalToPay)
 	{
 		return totalPaid - totalToPay;
 	}
 
+	/*
+	 * add an item in to the list of registered items
+	 */
 	public void addToList(ItemDTO item)
 	{
 		for(RegisteredItemDTO registeredItem : this.listWithRegisteredItems)

@@ -11,6 +11,9 @@ public class Receipt
 	private static String shopName = "Metro Detro";
 	private static String shopAddress = "Buy Buy gate 1";
 
+	/*
+	 * create an instance
+	 */
 	public Receipt(Sale paymentInfo, double totalPaid, double change,
 			String date, String shopName, String shopAddress)
 	{
@@ -20,6 +23,9 @@ public class Receipt
 		this.date = date;
 	}
 
+	/*
+	 * create a receipt with date on end sale and info about the sale
+	 */
 	public static Receipt createReceipt(Sale paymentInfo, double totalPaid, double change)
 	{
 		LocalDateTime lokaldate = LocalDateTime.now();
@@ -30,7 +36,7 @@ public class Receipt
 
 	public String toString()
 	{
-		return "Receipt" + "\n" + this.shopName + "\n" + this.shopAddress + "\n" + paymentInfo +
+		return "Receipt" + "\n" + this.shopName + "\n" + this.shopAddress + "\n" + date + "\n" + paymentInfo +
 				"\n" + "Paid: " + this.totalPaid + "\n" + "change: " + this.change + "\n";
 	}
 }

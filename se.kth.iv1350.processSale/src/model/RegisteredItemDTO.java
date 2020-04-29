@@ -9,7 +9,9 @@ public class RegisteredItemDTO
 	private double vatRate;
 	private int amount;
 
-
+	/*
+	 * creates an instance
+	 */
 	public RegisteredItemDTO(String name, String articleNumber,double price, double vatRate, int amount)
 	{
 		this.name = name;
