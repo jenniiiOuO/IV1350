@@ -30,7 +30,7 @@ class InventoryTest {
 	}
 
 	@Test
-	public void findItemsWithArticleNumber() {
+	public void findDifferentItemsWithSameArticleNumber() {
 		ItemDTO testItem = new ItemDTO("boll", "3678", 25, 0.12);
 		Inventory inven = new Inventory();
 		inven.addItem(testItem);
