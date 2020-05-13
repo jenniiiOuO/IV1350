@@ -1,11 +1,9 @@
-package test;
+package integration;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.junit.*;
 import static org.junit.Assert.assertEquals;
-import integration.Inventory;
-import integration.ItemDTO;
 
 class InventoryTest {
 

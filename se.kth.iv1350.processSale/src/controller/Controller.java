@@ -1,13 +1,17 @@
 package controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
 
 import integration.AccountingSystem;
+import integration.DoesNotExistException;
 import integration.Inventory;
+import integration.InventoryException;
 import integration.ItemDTO;
+import integration.LogHandler;
 import integration.Printer;
 import integration.RegistryCreator;
 import integration.SaleRegistry;
@@ -23,17 +27,16 @@ public class Controller
 	private Printer pr;
 	private AccountingSystem accS;
 	private Sale sale;
-
+	private LogHandler logH = new LogHandler();
 	/*
 	 * Create an instance of controller
 	 */
-	public Controller(RegistryCreator regiC, SaleRegistry saleR, Printer pr, AccountingSystem accS)
+	public Controller(RegistryCreator regiC, SaleRegistry saleR, Printer pr, AccountingSystem accS) throws IOException
 	{
 		this.inven = regiC.getInventory();
 		this.saleR = saleR;
 		this.pr = pr;
 		this.accS = accS;
-
 	}
 	
 	/*
@@ -41,10 +44,7 @@ public class Controller
 	 */
 	public void startSale()
 	{
-		List<RegisteredItemDTO> list = new ArrayList<>(); 
-		double totalToPay = 0;
-		double totalVat = 0;
-		this.sale = new Sale(list, totalToPay, totalVat);
+		this.sale = new Sale();
 	}
 	
 	/*
@@ -80,10 +80,17 @@ public class Controller
 	 * @param articleNumber - article number of an item
 	 * @return sale - current sale info
 	 */
-	public Sale register(String articleNumber)
+	public Sale register(String articleNumber) throws OperationNotWorkException, DoesNotExistException
 	{
-		ItemDTO itemToBeRegistered = inven.find(articleNumber);
-		sale.addToList(itemToBeRegistered);
+		try{
+			ItemDTO itemToBeRegistered = inven.find(articleNumber);
+			sale.addToList(itemToBeRegistered);
+		}catch(DoesNotExistException exc){
+			throw exc;
+			logH.logException("hej");
+		}catch(InventoryException exc){
+			throw new OperationNotWorkException("Try again", exc);
+		}
 		double price = sale.calculatePrice();
 		double vat = sale.calculateVat();
 		sale.setTotalToPay(price);

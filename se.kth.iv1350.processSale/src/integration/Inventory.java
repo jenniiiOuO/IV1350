@@ -27,15 +27,32 @@ public class Inventory
 	 * find the item with the same article number
 	 * @param artNr - the article number of the searched item
 	 * @return item - the item that has the same article number as the parameter
+	 * @throws DoesNotExistException if there is no item with such artNr.
 	 */
-	public ItemDTO find(String artNr)
+	public ItemDTO find(String artNr) throws DoesNotExistException, InventoryException
 	{
+		ItemDTO searchedItem = new ItemDTO("","", 0, 0);
 		for(ItemDTO item : Inventory)
 		{
 			if(item.getArticleNumber() == artNr)
-				return item;
+				searchedItem = item;
 		}
-		return null;
+		
+		searchedItem.setArticleNumber("ERROR");
+		
+		if(searchedItem.getArticleNumber() == "") {
+			searchedItem = null;
+		}
+		
+		if(searchedItem == null) {
+			throw new DoesNotExistException(artNr);
+		}
+		
+		if(searchedItem.getArticleNumber() == "ERROR") {
+			throw new InventoryException("Something went wrong, try again");
+		}
+		return searchedItem;
+
 	}
 	
 	/*

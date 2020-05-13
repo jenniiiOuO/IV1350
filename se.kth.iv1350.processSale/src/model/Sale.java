@@ -14,11 +14,12 @@ public class Sale
 	/*
 	 * creates an instance of a sale
 	 */
-	public Sale(List<RegisteredItemDTO> listWithRegisteredItems, double totalToPay, double totalVat)
+	public Sale()
 	{
-		this.listWithRegisteredItems = listWithRegisteredItems;
-		this.totalToPay = totalToPay;
-		this.totalVat = totalVat;
+		List<RegisteredItemDTO> list = new ArrayList<>(); 
+		this.listWithRegisteredItems = list;
+		this.totalToPay = 0;
+		this.totalVat = 0;
 	}
 	
 	/*

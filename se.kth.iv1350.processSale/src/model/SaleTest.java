@@ -1,4 +1,4 @@
-package test;
+package model;
 
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
@@ -6,8 +6,6 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import integration.ItemDTO;
-import model.RegisteredItemDTO;
-import model.Sale;
 
 import org.junit.*;
 import static org.junit.Assert.assertEquals;
@@ -21,7 +19,8 @@ class SaleTest {
 		list.add(new RegisteredItemDTO("kaka", "3678", 25, 0.12, 1));
 		list.add(new RegisteredItemDTO("penna", "0054", 10, 0.25, 1));
 		
-		Sale sale = new Sale(list, 0, 0);
+		Sale sale = new Sale();
+		sale.setListWithRegisteredItems(list);
 		double expectedValue = 68.5;
 		double result = sale.calculatePrice();
 		
@@ -35,7 +34,8 @@ class SaleTest {
 		list.add(new RegisteredItemDTO("kaka", "3678", 25, 0.12, 1));
 		list.add(new RegisteredItemDTO("penna", "0054", 10, 0.25, 1));
 		
-		Sale sale = new Sale(list, 0, 0);
+		Sale sale = new Sale();
+		sale.setListWithRegisteredItems(list);
 		double expectedValue = 8.5;
 		double result = sale.calculateVat();
 		
