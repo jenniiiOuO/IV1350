@@ -11,7 +11,7 @@ import integration.DoesNotExistException;
 import integration.Inventory;
 import integration.InventoryException;
 import integration.ItemDTO;
-import integration.LogHandler;
+import integration.Logger;
 import integration.Printer;
 import integration.RegistryCreator;
 import integration.SaleRegistry;
@@ -27,7 +27,7 @@ public class Controller
 	private Printer pr;
 	private AccountingSystem accS;
 	private Sale sale;
-	private LogHandler logH = new LogHandler();
+	private Logger logger = new Logger();
 	/*
 	 * Create an instance of controller
 	 */
@@ -79,6 +79,8 @@ public class Controller
 	 * Register an item
 	 * @param articleNumber - article number of an item
 	 * @return sale - current sale info
+	 * @throws DoesNotExistException if there is no item with such artNr.
+	 * @throws OperationNotWorkException when an operation fails.
 	 */
 	public Sale register(String articleNumber) throws OperationNotWorkException, DoesNotExistException
 	{
@@ -86,10 +88,11 @@ public class Controller
 			ItemDTO itemToBeRegistered = inven.find(articleNumber);
 			sale.addToList(itemToBeRegistered);
 		}catch(DoesNotExistException exc){
+			logger.log(exc);
 			throw exc;
-			logH.logException("hej");
 		}catch(InventoryException exc){
-			throw new OperationNotWorkException("Try again", exc);
+			logger.log(exc);
+			throw new OperationNotWorkException("try again", exc);
 		}
 		double price = sale.calculatePrice();
 		double vat = sale.calculateVat();

@@ -1,7 +1,7 @@
 package controller;
 
 /*
- * Throws when there is an operation failed with unknown reason.
+ * Thrown when there is an operation failed with unknown reason.
  */
 public class OperationNotWorkException extends Exception{
 	
@@ -11,6 +11,6 @@ public class OperationNotWorkException extends Exception{
 	 * @param reason - the exception that caused this exception.
 	 */
 	public OperationNotWorkException(String message, Exception reason){
-		super(message, reason);
+		super(reason.getMessage()+", " + message, reason);
 	}
 }

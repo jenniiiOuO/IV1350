@@ -23,7 +23,7 @@ public class View
 	 */
 	public void simulator() throws OperationNotWorkException 
 	{
-		String[] itemNeededToRegister = {"3678", "3678", "0054"};
+		String[] itemNeededToRegister = {"3678", "0000", "3678", "0054"};
 		contr.startSale();
 		
 		for(int i = 0; i < itemNeededToRegister.length; i++)

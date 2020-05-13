@@ -28,6 +28,7 @@ public class Inventory
 	 * @param artNr - the article number of the searched item
 	 * @return item - the item that has the same article number as the parameter
 	 * @throws DoesNotExistException if there is no item with such artNr.
+	 * @throws InventoryException when failed to communicate with database.
 	 */
 	public ItemDTO find(String artNr) throws DoesNotExistException, InventoryException
 	{
@@ -38,7 +39,7 @@ public class Inventory
 				searchedItem = item;
 		}
 		
-		searchedItem.setArticleNumber("ERROR");
+		//searchedItem.setArticleNumber("ERROR");
 		
 		if(searchedItem.getArticleNumber() == "") {
 			searchedItem = null;
@@ -49,7 +50,7 @@ public class Inventory
 		}
 		
 		if(searchedItem.getArticleNumber() == "ERROR") {
-			throw new InventoryException("Something went wrong, try again");
+			throw new InventoryException("Communication failed");
 		}
 		return searchedItem;
 
