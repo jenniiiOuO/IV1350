@@ -23,7 +23,7 @@ public class Controller
 	private Printer pr;
 	private AccountingSystem accS;
 	private Sale sale;
-y
+
 	/*
 	 * Create an instance of controller
 	 */
