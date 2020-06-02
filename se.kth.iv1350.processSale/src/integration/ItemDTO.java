@@ -3,10 +3,10 @@ package integration;
 
 public class ItemDTO
 {
-	private String name;
-	private String articleNumber;
-	private double price;
-	private double vatRate;
+	private final String name;
+	private final String articleNumber;
+	private final double price;
+	private final double vatRate;
 
 
 	public ItemDTO(String name, String articleNumber, double price, double vatRate)
@@ -35,10 +35,5 @@ public class ItemDTO
 	public double getVatRate()
 	{
 		return this.vatRate;
-	}
-
-	public void setArticleNumber(String artNr) {
-		this.articleNumber = artNr;
-		
 	}
 }

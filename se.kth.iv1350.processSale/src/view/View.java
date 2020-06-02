@@ -4,8 +4,6 @@ import java.util.Locale;
 import java.util.Scanner;
 
 import controller.Controller;
-import controller.OperationNotWorkException;
-import integration.DoesNotExistException;
 import model.Sale;
 
 
@@ -21,21 +19,15 @@ public class View
 	/*
 	 * simulate a sale
 	 */
-	public void simulator() throws OperationNotWorkException 
+	public void simulator()
 	{
 		String[] itemNeededToRegister = {"3678", "0000", "3678", "0054"};
 		contr.startSale();
 		
 		for(int i = 0; i < itemNeededToRegister.length; i++)
 		{
-			try {
-				Sale info = contr.register(itemNeededToRegister[i]);
-				System.out.println(info);
-			}catch(DoesNotExistException exc) {
-				System.out.println(exc);
-			}catch(OperationNotWorkException exc) {
-				System.out.println(exc);
-			}
+			Sale info = contr.register(itemNeededToRegister[i]);
+			System.out.println(info);
 		}
 		
 		double toPay = contr.endSale();

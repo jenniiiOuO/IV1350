@@ -1,9 +1,6 @@
 package startup;
 
-import java.io.IOException;
-
 import controller.Controller;
-import controller.OperationNotWorkException;
 import integration.AccountingSystem;
 import integration.Printer;
 import integration.RegistryCreator;
@@ -15,7 +12,7 @@ public class Main {
 	/*
 	 * main, create instance of the external systems in order to be able to interact with them in the sale
 	 */
-	public static void main(String[] args) throws OperationNotWorkException, IOException
+	public static void main(String[] args)
 	{
 		RegistryCreator regiC = new RegistryCreator();
 		SaleRegistry saleR = new SaleRegistry();
