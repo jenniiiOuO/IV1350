@@ -2,8 +2,7 @@ package model;
 
 import java.time.LocalDateTime;
 
-public class Receipt
-{
+public class Receipt {
 	private Sale paymentInfo;
 	private double totalPaid;
 	private double change;
@@ -14,9 +13,8 @@ public class Receipt
 	/*
 	 * create an instance
 	 */
-	public Receipt(Sale paymentInfo, double totalPaid, double change,
-			String date, String shopName, String shopAddress)
-	{
+	public Receipt(Sale paymentInfo, double totalPaid, double change, String date, String shopName,
+			String shopAddress) {
 		this.paymentInfo = paymentInfo;
 		this.totalPaid = totalPaid;
 		this.change = change;
@@ -26,17 +24,15 @@ public class Receipt
 	/*
 	 * create a receipt with date on end sale and info about the sale
 	 */
-	public static Receipt createReceipt(Sale paymentInfo, double totalPaid, double change)
-	{
+	public static Receipt createReceipt(Sale paymentInfo, double totalPaid, double change) {
 		LocalDateTime lokaldate = LocalDateTime.now();
 		date = lokaldate.toString();
-		return new Receipt(paymentInfo, totalPaid,change, date, shopName, shopAddress);
+		return new Receipt(paymentInfo, totalPaid, change, date, shopName, shopAddress);
 
 	}
 
-	public String toString()
-	{
-		return "Receipt" + "\n" + this.shopName + "\n" + this.shopAddress + "\n" + date + "\n" + paymentInfo +
-				"\n" + "Paid: " + this.totalPaid + "\n" + "change: " + this.change + "\n";
+	public String toString() {
+		return "Receipt" + "\n" + this.shopName + "\n" + this.shopAddress + "\n" + date + "\n" + paymentInfo + "\n"
+				+ "Paid: " + this.totalPaid + "\n" + "change: " + this.change + "\n";
 	}
 }

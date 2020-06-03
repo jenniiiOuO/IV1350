@@ -1,8 +1,6 @@
 package model;
 
-
-public class RegisteredItemDTO
-{
+public class RegisteredItemDTO {
 	private String name;
 	private String articleNumber;
 	private double price;
@@ -12,8 +10,7 @@ public class RegisteredItemDTO
 	/*
 	 * creates an instance
 	 */
-	public RegisteredItemDTO(String name, String articleNumber,double price, double vatRate, int amount)
-	{
+	public RegisteredItemDTO(String name, String articleNumber, double price, double vatRate, int amount) {
 		this.name = name;
 		this.articleNumber = articleNumber;
 		this.price = price;
@@ -21,40 +18,31 @@ public class RegisteredItemDTO
 		this.amount = amount;
 	}
 
-	public String getName()
-	{
+	public String getName() {
 		return this.name;
 	}
 
-	public String getArticleNumber()
-	{
+	public String getArticleNumber() {
 		return this.articleNumber;
 	}
 
-	public double getPrice()
-	{
+	public double getPrice() {
 		return this.price;
 	}
 
-	public double getVatRate()
-	{
+	public double getVatRate() {
 		return this.vatRate;
 	}
-	
-	public int getAmount()
-	{
+
+	public int getAmount() {
 		return this.amount;
 	}
 
-
-	public void setAmount(int amount)
-	{
+	public void setAmount(int amount) {
 		this.amount = amount;
 	}
 
-
-	public String toString()
-	{
+	public String toString() {
 		return this.name + "\t" + this.price + "\t" + this.amount + "\n";
 	}
 }

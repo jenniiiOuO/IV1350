@@ -18,6 +18,7 @@ import integration.SaleRegistry;
 import model.Receipt;
 import model.RegisteredItemDTO;
 import model.Sale;
+import model.TotalRevenueObserver;
 
 
 public class Controller
@@ -28,6 +29,8 @@ public class Controller
 	private AccountingSystem accS;
 	private Sale sale;
 	private Logger logger = new Logger();
+	private List<TotalRevenueObserver> totalRevenueObserver = new ArrayList<>();
+	
 	/*
 	 * Create an instance of controller
 	 */
@@ -38,7 +41,13 @@ public class Controller
 		this.pr = pr;
 		this.accS = accS;
 	}
-	
+	/*
+	 * Put observer into observer list
+	 * @param obs - observer to add
+	 */
+	public void addTotalRevenueObserver(TotalRevenueObserver obs) {
+		totalRevenueObserver.add(obs);
+	}
 	/*
 	 * Start a new sale
 	 */
@@ -54,6 +63,7 @@ public class Controller
 	public double endSale() 
 	{
 		double toPay = sale.getTotalToPay();
+		sale.addObservers(totalRevenueObserver);
 		return toPay;
 	}
 	
@@ -67,8 +77,7 @@ public class Controller
 		saleR.updateBalance(sale.getTotalToPay());
 		accS.updateAccounting(sale);
 		inven.updateInventory(sale.getListWithRegisteredItems());
-		double change = Sale.calculateDifference(totalPaid,
-				sale.getTotalToPay());
+		double change = sale.calculateChange(totalPaid);
 		Receipt receipt = Receipt.createReceipt(sale, totalPaid, change);
 		pr.printReceipt(receipt);
 
